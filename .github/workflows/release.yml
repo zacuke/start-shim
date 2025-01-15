@@ -26,10 +26,10 @@ jobs:
       # Verify the build output
       - name: Verify build output
         run: |
-          if not exist "src\bin\x64\Release\start-shim.exe" (
-            echo Build output not found!
+          if (!(Test-Path "src\bin\x64\Release\start-shim.exe")) {
+            Write-Error "Build output not found!"
             exit 1
-          )
+          }
 
       # Upload the executable as an artifact for debugging (optional)
       - name: Upload build artifact (optional)

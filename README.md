@@ -16,7 +16,7 @@ doskey nv=start-shim nvim-qt $1
 
 Then after you exit neovim, even if you have clicked other windows in the meantime, the terminal will regain focus as expected.
 
-** Doskey 
+## Doskey 
 See this [stack overflow](https://superuser.com/a/1858414/1677822) for automatic configuration of doskey aliases.
 
 In my case I ended up modifying `C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat` and added my `doskey` aliases to the end of this batch file.

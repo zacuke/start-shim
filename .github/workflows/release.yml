@@ -1,0 +1,63 @@
+name: Build and Release C++ App
+
+on:
+  push:
+    tags:
+      - "v*" # Trigger this workflow only on new version tags (e.g., v1.0.0)
+
+jobs:
+  build:
+    name: Build C++ Project
+    runs-on: windows-latest
+
+    steps:
+      # Checkout the code from the repo
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Setup MSBuild
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      # Build the solution file
+      - name: Build the solution
+        run: msbuild src/start-shim.sln /p:Configuration=Release
+
+      # Verify the build output
+      - name: Verify build output
+        run: |
+          if not exist "src\bin\x64\Release\start-shim.exe" (
+            echo Build output not found!
+            exit 1
+          )
+
+      # Upload the executable as an artifact for debugging (optional)
+      - name: Upload build artifact (optional)
+        uses: actions/upload-artifact@v4
+        with:
+          name: start-shim
+          path: src\bin\x64\Release\start-shim.exe
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      # Download artifacts
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: start-shim
+          path: artifacts
+
+      # Upload the build output to the release
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            artifacts/start-shim.exe
+          body: |
+            Example usage: 
+            `doskey nv=start-shim nvim-qt $1`

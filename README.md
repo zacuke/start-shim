@@ -6,7 +6,7 @@ You can create a simple alias using `doskey`.
 
 Example: To run `nvim-qt` (GUI for Neovim) with `start-shim`, configure an alias as follows:
 ```bash
-doskey nv=start-shim nvim-qt $1
+doskey nv=start-shim nvim-qt $*
 ```
 
 Then after you exit neovim-qt, even if you have clicked other windows in the meantime, the terminal will regain focus as desired.

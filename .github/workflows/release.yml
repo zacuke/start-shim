@@ -60,4 +60,4 @@ jobs:
             artifacts/start-shim.exe
           body: |
             Example usage: 
-            `doskey nv=start-shim nvim-qt $1`
+            `doskey nv=start-shim nvim-qt $*`
